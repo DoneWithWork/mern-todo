@@ -9,9 +9,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the To-Do API");
+});
 app.use("/todo", ToDoRoutes);
 
 app.use(errorHandler);
+app.get("*", (req, res) => {
+  res.status(404).json({ error: "Page not found" });
+});
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
